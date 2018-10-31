@@ -112,6 +112,7 @@ function init() {
     window.setInterval(spawnRain, 10);
 
     renderer.view.addEventListener("touchstart", function(e) {
+        e = e.touches[0]
         let x = ((e.clientX - renderer.view.offsetLeft) - w/2) / PTM;
         let y = (-(e.clientY - renderer.view.offsetTop) + h/2) / PTM;
         // if (e.shiftKey) {/
