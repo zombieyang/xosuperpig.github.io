@@ -36,7 +36,7 @@ function createParticleSystem() {
     let psd = new Box2D.b2ParticleSystemDef();
     psd.set_radius(0.1);
     particleSystem = world.CreateParticleSystem(psd);
-    particleSystem.SetMaxParticleCount(50000);
+    particleSystem.SetMaxParticleCount(15000);
 
     let dummy = PIXI.Sprite.from(PIXI.Texture.EMPTY);
     renderer.stage.addChild(dummy);
@@ -63,8 +63,8 @@ function spawnParticles(radius, x, y) {
 
 function spawnRain() {
     let x = getRandom(-25, 25);
-    for (let i = 0; i < 5; i++) {  
-        spawnParticles(0.2, x, 25);
+    for (let i = 0; i < 20; i++) {  
+        spawnParticles(0.1, x, 25);
     }
     //group.ApplyLinearImpulse(wind);
 }
