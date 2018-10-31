@@ -48,7 +48,7 @@ function createParticleSystem() {
 function spawnParticles(radius, x, y) {
     let color = new Box2D.b2ParticleColor(0, 0, 255, 255);
     // flags
-    let flags = (0<<0);
+    let flags = (0 << 0);
 
     let pgd = new Box2D.b2ParticleGroupDef();
     let shape = new Box2D.b2CircleShape();
@@ -63,7 +63,16 @@ function spawnParticles(radius, x, y) {
 
 function spawnRain() {
     let x = getRandom(-25, 25);
-    let group = spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
+    spawnParticles(0.09, x, 25);
     //group.ApplyLinearImpulse(wind);
 }
 
@@ -75,7 +84,7 @@ function init() {
     // renderer
     let w = window.innerWidth;
     let h = window.innerHeight;
-    renderer = new PIXI.Application(w, h, {backgroundColor : 0x8BB174});
+    renderer = new PIXI.Application(w, h, { backgroundColor: 0x8BB174 });
     document.body.appendChild(renderer.view);
 
     //let killerShape = new Box2D.b2PolygonShape;
@@ -84,8 +93,8 @@ function init() {
     //killerTransform.Set(new Box2D.b2Vec2(0, 0), 0);
 
     // shift 0/0 to the center
-    renderer.stage.position.x = w/2;
-    renderer.stage.position.y = h/2;
+    renderer.stage.position.x = w / 2;
+    renderer.stage.position.y = h / 2;
 
     // world
     world = new Box2D.b2World(gravity);
@@ -94,10 +103,10 @@ function init() {
 
     createParticleSystem();
 
-    renderer.ticker.add(function() {
-        for (let i=0,s=sprites[i];i<sprites.length;s=sprites[++i]) {
+    renderer.ticker.add(function () {
+        for (let i = 0, s = sprites[i]; i < sprites.length; s = sprites[++i]) {
             let pos = s.body.GetPosition();
-            s.position.set(pos.get_x()*PTM, -pos.get_y()*PTM)
+            s.position.set(pos.get_x() * PTM, -pos.get_y() * PTM)
             s.rotation = -s.body.GetAngle();
         }
         stats.update();
@@ -106,19 +115,19 @@ function init() {
     // update loop
     function update() {
         //particleSystem.DestroyParticlesInShape(killerShape, killerTransform);
-        world.Step(1/60, 8, 3);
+        world.Step(1 / 60, 8, 3);
     }
     window.setInterval(update, 1000 / 60);
     window.setInterval(spawnRain, 10);
 
-    renderer.view.addEventListener("touchstart", function(e) {
+    renderer.view.addEventListener("touchstart", function (e) {
         e = e.touches[0]
-        let x = ((e.clientX - renderer.view.offsetLeft) - w/2) / PTM;
-        let y = (-(e.clientY - renderer.view.offsetTop) + h/2) / PTM;
+        let x = ((e.clientX - renderer.view.offsetLeft) - w / 2) / PTM;
+        let y = (-(e.clientY - renderer.view.offsetTop) + h / 2) / PTM;
         // if (e.shiftKey) {/
-            spawnParticles(1, x, y);
+        spawnParticles(1, x, y);
         // } else {
-            // createBox(x, y, 1, 1, e.ctrlKey);
+        // createBox(x, y, 1, 1, e.ctrlKey);
         // }
     });
 };
