@@ -111,14 +111,14 @@ function init() {
     window.setInterval(update, 1000 / 60);
     window.setInterval(spawnRain, 10);
 
-    renderer.view.addEventListener("click", function(e) {
+    renderer.view.addEventListener("touchstart", function(e) {
         let x = ((e.clientX - renderer.view.offsetLeft) - w/2) / PTM;
         let y = (-(e.clientY - renderer.view.offsetTop) + h/2) / PTM;
-        if (e.shiftKey) {
+        // if (e.shiftKey) {/
             spawnParticles(1, x, y);
-        } else {
-            createBox(x, y, 1, 1, e.ctrlKey);
-        }
+        // } else {
+            // createBox(x, y, 1, 1, e.ctrlKey);
+        // }
     });
 };
 
