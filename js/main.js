@@ -64,7 +64,7 @@ function spawnParticles(radius, x, y) {
 function spawnRain() {
     let x = getRandom(-25, 25);
     for (let i = 0; i < 10; i++) {  
-        spawnParticles(0.09, x, 25);
+        spawnParticles(0.9, x, 25);
     }
     //group.ApplyLinearImpulse(wind);
 }
