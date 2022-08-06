@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><link rel="preload" href="/_next/static/css/2c29404f5b4fd744.css" as="style"/><link rel="stylesheet" href="/_next/static/css/2c29404f5b4fd744.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-69bfa6990bb9e155.js" defer=""></script><script src="/_next/static/chunks/framework-7dc8a65f4a0cda33.js" defer=""></script><script src="/_next/static/chunks/main-7208cb52645282c2.js" defer=""></script><script src="/_next/static/chunks/pages/_app-9c3a8e39b814adb1.js" defer=""></script><script src="/_next/static/chunks/585-17690b6c162d080d.js" defer=""></script><script src="/_next/static/chunks/pages/unity/%5Blang%5D/%5Bdoc%5D-f4ca3aafad0758a9.js" defer=""></script><script src="/_next/static/i9f7-zIIzECJPf1NJblOU/_buildManifest.js" defer=""></script><script src="/_next/static/i9f7-zIIzECJPf1NJblOU/_ssgManifest.js" defer=""></script></head><body style="margin:0"><div id="__next"><div class="App"><header class="App-header"><span style="box-sizing:border-box;display:inline-block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative;max-width:100%"><span style="box-sizing:border-box;display:block;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;max-width:100%"><img style="display:block;max-width:100%;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0" alt="" aria-hidden="true" src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2780%27%20height=%2780%27/%3e"/></span><img alt="logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" decoding="async" data-nimg="intrinsic" class="App-logo" style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"/><noscript><img alt="logo" src="/puerts-logo.png" decoding="async" data-nimg="intrinsic" style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%" class="App-logo" loading="lazy"/></noscript></span><section class="App-title"><div><h1>PuerTS</h1><span> - Write your UE/Unity game with TypeScript.</span></div><span class="subtitle">can be pronounced as pu-erh TS（普洱TS）</span></section><section class="App-doc-version"><select name="engine" id="engine"><option value="unreal">Unreal</option><option value="unity" selected="">Unity</option></select><select name="language" id="language"><option value="en">English</option><option value="zhcn" selected="">简体中文</option></select></section><section class="App-link"><a target="_blank" href="https://github.com/tencent/puerts"><img src="https://img.shields.io/github/stars/tencent/puerts?style=social" alt=""/></a></section></header><article class="App-body"><section class="App-sidebar"><div class="App-install-bar"><span class="App-install">Install</span></div><div class="sidebar-content"><div class="catalog-block"><h5><a href="/unity/zhcn/readme">Introduce to PuerTS</a></h5></div><div class="catalog-block"><h5><span>PuerTS基础</span></h5><ul><li><span>在unity里运行JS</span></li><li><span>C#调用JS指南</span></li><li><span>C#调用JS指南</span></li></ul></div><div class="catalog-block"><h5><span>深入PuerTS</span></h5><ul><li><span>Wrapper生成</span></li><li><span>生成过滤器Filter</span></li><li><span>Blittable GC优化</span></li><li><span>C#扩展函数</span></li></ul></div><div class="catalog-block"><h5><span>其他指引</span></h5><ul><li><a href="/unity/zhcn/faq">FAQ</a></li><li><span>JS调试</span></li><li><span>其他JS后端</span></li><li><span>自行构建</span></li></ul></div><div class="catalog-block"><h5><span>为PuerTS贡献</span></h5><ul><li><span>单元测试</span></li></ul></div><div class="catalog-block"><h5><span>JS指南</span></h5></div></div></section><section class="App-content markdown-body"><h1>FAQ</h1>
+<h2>invalid arguments to XXX</h2>
+<p>如果你用js，可能是输错参数了。</p>
+<p>如果你用typescript，可能是子类同名，但不同参数的函数覆盖了父类。以System.Text.Encoding.UTF8.GetBytes为例，你直接调用会报错。</p>
+<pre><code class="language-csharp">System.Text.Encoding.UTF8.GetBytes(&quot;你好&quot;);
+</code></pre>
+<p>System.Text.Encoding.UTF8指向的对象System.Text.UTF8Encoding，有GetBytes的其它重载，按目前的实现找到当前类有同名函数就不再找基类导致的。这时候你可以手动指定下用其基类接口访问该对象。</p>
+<pre><code class="language-csharp">Object.setPrototypeOf(System.Text.Encoding.UTF8, System.Text.Encoding.prototype);//只需要调用过一次即可。后续调用GetBytes都不用再调用。
+System.Text.Encoding.UTF8.GetBytes(&quot;你好&quot;);
+</code></pre>
+<h2>setInterval没回调</h2>
+<p>可能是没调用JsEnv.Tick</p>
+<h2>如何调试</h2>
+<p>这是<a href="vscode_debug.md">vscode</a>，其它IDE的看各IDE的指引，按nodejs的调试来处理即可。</p>
+<h2>如果需要调试，ILoader的debugpath参数该如何处理？</h2>
+<p>ts/js中调用require(&#x27;./a/b&#x27;)时，ILoader会被调用并传入字符串&quot;.../a/b.js&quot;(相对rootPath的完整路径)，你需要理解这字符串并(从文件/内存/网络等)加载好js文件并直接返回。而debugpath需要返回调试器可以理解的路径(比如js文件的绝对路径: D:/.../a/b.js)，通过设置out string debuggpath参数返回，调试器后续根据这个文件路径来匹配文件上的断点。</p>
+<blockquote>
+<p>Windows平台不区分文件大小写名称且使用反斜杠&quot;\&quot;代替&quot;/&quot;</p>
+</blockquote>
+<h2>can not find delegate bridge for XXX</h2>
+<p>你将一个js函数映射为一个delegate有时会报这错误，XXX就是要映射的delegate，可能的情况如下：</p>
+<ul>
+<li>
+<p>该delegate带了值类型参数或者返回值，解决办法：如果没有返回值，用JsEnv.UsingAction声明下，有返回值就用JsEnv.UsingFunc声明。关于做这项工作的必要性，可参见这个<a href="https://stackoverflow.com/questions/56183606/invoke-generic-method-via-reflection-in-c-sharp-il2cpp-on-ios">stackoverflow问题</a></p>
+</li>
+<li>
+<p>参数数量超过4个，解决办法：官方目前只支持4个，如果有需要，可以依葫芦画瓢写更多的参数支持。</p>
+</li>
+<li>
+<p>参数含ref，out的修饰，目前尚未支持，解决办法：填写issues来提需求</p>
+</li>
+</ul>
+<h2>maOS10.15以上,启动unity的时候提示puerts.bundle损坏,移动到废纸篓</h2>
+<p>执行</p>
+<pre><code class="language-bash">sudo xattr -r -d com.apple.quarantine puerts.bundle
+</code></pre>
+<h2>生成代码打包手机版本时报方法（runInEditMode等等）找不到</h2>
+<p>因为这些方法是编辑器独有的，可以通过filter过滤掉，filter使用参考<a href="manual.md">使用手册</a></p>
+<h2>编辑器下运行正常，il2cpp打包后调用函数/访问属性失败</h2>
+<p>unity默认会进行代码剪裁，简而言之unity发现某引擎api，系统api没有被业务c#使用，就不编译倒cpp。
+解决办法：1、对要调用的api生成wrap代码，这样c#里头就有了引用；2、通过link.xml告知unity别剪裁，link.xml的配置请参考unity官方文档。</p>
+<h2>编辑器下运行正常，打包的时候生成代码报“没有某方法/属性/字段定义”怎么办？</h2>
+<p>往往是由于该方法/属性/字段是扩在条件编译里头，只在UNITY_EDITOR下有效，这时需要把这方法/属性/字段通过Filter标签过滤，之后重新执行代码生成并打包。(<a href="https://github.com/Tencent/puerts/discussions/806">discussions说明</a>)</p>
+<h2>编辑器下运行正常，打包后调用扩展方法报错(不生成静态代码)</h2>
+<p>默认打包后不再使用反射获取扩展函数, 可使用<code>PUERTS_REFLECT_ALL_EXTENSION</code>宏来开启反射.(反射速度慢, 建议在任何时候都应该生成静态代码)</p>
+<h2>GetComponent<xxx>()在CS为null，但在JS调用却不为null，为什么</xxx></h2>
+<p>其实那C#对象并不为null，是UnityEngine.Object重载的==操作符。当一个对象被Destroy，未初始化等情况，obj == null返回true；<code>GetComponent&lt;XXX&gt;()</code>如果组件不存在，Unity重载==的结果也会让其返回null。但这些C#对象并不为null，可以通过System.Object.ReferenceEquals(null, obj)来验证下。</p>
+<p>对应这种情况，可以为UnityEngine.Object写一个扩展方法，需要判空的时候统一用它解决：</p>
+<pre><code>public static bool IsNull(this UnityEngine.Object o) 
+{
+    return o == null;
+}
+</code></pre>
+<h2>source-map-support支持</h2>
+<p>安装模块</p>
+<pre><code>npm install source-map-support --save-dev
+</code></pre>
+<p>然后执行如下代码:</p>
+<pre><code class="language-javascript">var csharp = require(&quot;csharp&quot;);
+var puerts = require(&quot;puerts&quot;);
+puerts.registerBuildinModule(&quot;path&quot;, {
+    dirname(path) {
+        return csharp.System.IO.Path.GetDirectoryName(path);
+    },
+    resolve(dir, url) {
+        url = url.replace(/\\/g, &quot;/&quot;);
+        while (url.startsWith(&quot;../&quot;)) {
+            dir = csharp.System.IO.Path.GetDirectoryName(dir);
+            url = url.substr(3);
+        }
+        return csharp.System.IO.Path.Combine(dir, url);
+    },
+});
+puerts.registerBuildinModule(&quot;fs&quot;, {
+    existsSync(path) {
+        return csharp.System.IO.File.Exists(path);
+    },
+    readFileSync(path) {
+        return csharp.System.IO.File.ReadAllText(path);
+    },
+});
+(function () {
+    let global = this ?? globalThis;
+    global[&quot;Buffer&quot;] = global[&quot;Buffer&quot;] ?? {};
+    //使用inline-source-map模式, 需要额外安装buffer模块
+    //global[&quot;Buffer&quot;] = global[&quot;Buffer&quot;] ?? require(&quot;buffer&quot;).Buffer;
+})();
+require(&#x27;source-map-support&#x27;).install();
+</code></pre>
+<p>注: source-map-support是nodejs模块, 需要自定义path和fs模块.</p>
+<h2>webpack打包</h2>
+<p>将自定义模块加入external module</p>
+<pre><code class="language-js">module.exports = {
+    // other...
+    /** 忽略编辑的第三方库 */
+    externals: {
+        csharp: &quot;commonjs2 csharp&quot;,
+        puerts: &quot;commonjs2 puerts&quot;,
+        path: &quot;commonjs2 path&quot;,
+        fs: &quot;commonjs2 fs&quot;,
+    }
+};
+</code></pre></section></article></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"markdown":"# FAQ\r\n\r\n## invalid arguments to XXX\r\n\r\n如果你用js，可能是输错参数了。\r\n\r\n如果你用typescript，可能是子类同名，但不同参数的函数覆盖了父类。以System.Text.Encoding.UTF8.GetBytes为例，你直接调用会报错。\r\n\r\n```csharp\r\nSystem.Text.Encoding.UTF8.GetBytes(\"你好\");\r\n```\r\n\r\nSystem.Text.Encoding.UTF8指向的对象System.Text.UTF8Encoding，有GetBytes的其它重载，按目前的实现找到当前类有同名函数就不再找基类导致的。这时候你可以手动指定下用其基类接口访问该对象。\r\n\r\n\r\n```csharp\r\nObject.setPrototypeOf(System.Text.Encoding.UTF8, System.Text.Encoding.prototype);//只需要调用过一次即可。后续调用GetBytes都不用再调用。\r\nSystem.Text.Encoding.UTF8.GetBytes(\"你好\");\r\n```\r\n\r\n## setInterval没回调\r\n\r\n可能是没调用JsEnv.Tick\r\n\r\n## 如何调试\r\n\r\n这是[vscode](vscode_debug.md)，其它IDE的看各IDE的指引，按nodejs的调试来处理即可。\r\n\r\n## 如果需要调试，ILoader的debugpath参数该如何处理？\r\nts/js中调用require('./a/b')时，ILoader会被调用并传入字符串\".../a/b.js\"(相对rootPath的完整路径)，你需要理解这字符串并(从文件/内存/网络等)加载好js文件并直接返回。而debugpath需要返回调试器可以理解的路径(比如js文件的绝对路径: D:/.../a/b.js)，通过设置out string debuggpath参数返回，调试器后续根据这个文件路径来匹配文件上的断点。\r\n\u003e Windows平台不区分文件大小写名称且使用反斜杠\"\\\\\"代替\"/\"\r\n\r\n\r\n## can not find delegate bridge for XXX\r\n\r\n你将一个js函数映射为一个delegate有时会报这错误，XXX就是要映射的delegate，可能的情况如下：\r\n\r\n* 该delegate带了值类型参数或者返回值，解决办法：如果没有返回值，用JsEnv.UsingAction声明下，有返回值就用JsEnv.UsingFunc声明。关于做这项工作的必要性，可参见这个[stackoverflow问题](https://stackoverflow.com/questions/56183606/invoke-generic-method-via-reflection-in-c-sharp-il2cpp-on-ios)\r\n\r\n* 参数数量超过4个，解决办法：官方目前只支持4个，如果有需要，可以依葫芦画瓢写更多的参数支持。\r\n\r\n* 参数含ref，out的修饰，目前尚未支持，解决办法：填写issues来提需求\r\n\r\n\r\n## maOS10.15以上,启动unity的时候提示puerts.bundle损坏,移动到废纸篓\r\n\r\n执行\r\n\r\n~~~bash\r\nsudo xattr -r -d com.apple.quarantine puerts.bundle\r\n~~~\r\n\r\n## 生成代码打包手机版本时报方法（runInEditMode等等）找不到\r\n\r\n因为这些方法是编辑器独有的，可以通过filter过滤掉，filter使用参考[使用手册](manual.md)\r\n\r\n## 编辑器下运行正常，il2cpp打包后调用函数/访问属性失败\r\n\r\nunity默认会进行代码剪裁，简而言之unity发现某引擎api，系统api没有被业务c#使用，就不编译倒cpp。\r\n解决办法：1、对要调用的api生成wrap代码，这样c#里头就有了引用；2、通过link.xml告知unity别剪裁，link.xml的配置请参考unity官方文档。\r\n\r\n## 编辑器下运行正常，打包的时候生成代码报“没有某方法/属性/字段定义”怎么办？\r\n往往是由于该方法/属性/字段是扩在条件编译里头，只在UNITY_EDITOR下有效，这时需要把这方法/属性/字段通过Filter标签过滤，之后重新执行代码生成并打包。([discussions说明](https://github.com/Tencent/puerts/discussions/806))\r\n\r\n## 编辑器下运行正常，打包后调用扩展方法报错(不生成静态代码)\r\n默认打包后不再使用反射获取扩展函数, 可使用`PUERTS_REFLECT_ALL_EXTENSION`宏来开启反射.(反射速度慢, 建议在任何时候都应该生成静态代码)\r\n\r\n## GetComponent\u003cXXX\u003e()在CS为null，但在JS调用却不为null，为什么\r\n其实那C#对象并不为null，是UnityEngine.Object重载的==操作符。当一个对象被Destroy，未初始化等情况，obj == null返回true；`GetComponent\u003cXXX\u003e()`如果组件不存在，Unity重载==的结果也会让其返回null。但这些C#对象并不为null，可以通过System.Object.ReferenceEquals(null, obj)来验证下。\r\n\r\n对应这种情况，可以为UnityEngine.Object写一个扩展方法，需要判空的时候统一用它解决：\r\n```\r\npublic static bool IsNull(this UnityEngine.Object o) \r\n{\r\n    return o == null;\r\n}\r\n```\r\n\r\n## source-map-support支持\r\n安装模块\r\n```\r\nnpm install source-map-support --save-dev\r\n```\r\n然后执行如下代码:\r\n``` javascript\r\nvar csharp = require(\"csharp\");\r\nvar puerts = require(\"puerts\");\r\npuerts.registerBuildinModule(\"path\", {\r\n    dirname(path) {\r\n        return csharp.System.IO.Path.GetDirectoryName(path);\r\n    },\r\n    resolve(dir, url) {\r\n        url = url.replace(/\\\\/g, \"/\");\r\n        while (url.startsWith(\"../\")) {\r\n            dir = csharp.System.IO.Path.GetDirectoryName(dir);\r\n            url = url.substr(3);\r\n        }\r\n        return csharp.System.IO.Path.Combine(dir, url);\r\n    },\r\n});\r\npuerts.registerBuildinModule(\"fs\", {\r\n    existsSync(path) {\r\n        return csharp.System.IO.File.Exists(path);\r\n    },\r\n    readFileSync(path) {\r\n        return csharp.System.IO.File.ReadAllText(path);\r\n    },\r\n});\r\n(function () {\r\n    let global = this ?? globalThis;\r\n    global[\"Buffer\"] = global[\"Buffer\"] ?? {};\r\n    //使用inline-source-map模式, 需要额外安装buffer模块\r\n    //global[\"Buffer\"] = global[\"Buffer\"] ?? require(\"buffer\").Buffer;\r\n})();\r\nrequire('source-map-support').install();\r\n```\r\n注: source-map-support是nodejs模块, 需要自定义path和fs模块.\r\n    \r\n##  webpack打包\r\n将自定义模块加入external module\r\n``` js\r\nmodule.exports = {\r\n    // other...\r\n    /** 忽略编辑的第三方库 */\r\n    externals: {\r\n        csharp: \"commonjs2 csharp\",\r\n        puerts: \"commonjs2 puerts\",\r\n        path: \"commonjs2 path\",\r\n        fs: \"commonjs2 fs\",\r\n    }\r\n};\r\n```\r\n","lang":"zhcn","doc":"faq"},"__N_SSG":true},"page":"/unity/[lang]/[doc]","query":{"lang":"zhcn","doc":"faq"},"buildId":"i9f7-zIIzECJPf1NJblOU","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
